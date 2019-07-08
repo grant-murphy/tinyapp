@@ -40,7 +40,7 @@ app.get("/hello", (req, res) => {
 
 app.post("/urls", (req, res) => {
   console.log(req.body);  // Log the POST request body to the console
-  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  res.send(generateRandomString());         // Respond with 'Ok' (we will replace this)
 });
 
 app.listen(PORT, () => {
@@ -48,12 +48,14 @@ app.listen(PORT, () => {
 });
 
 //RANDOM STRING GENERATOR
-function generateRandomString(length) {
+let generateRandomString = function() {
   var anysize = 6;//the size of string 
   var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //from where to create
   result="";
-  for( var i=0; i < anysize; i++ )
+  for( var i=0; i < anysize; i++ ) {
   result += charset[Math.floor(Math.random() * charset.length)];
+  }
+  return result;
 }
 
 generateRandomString();
