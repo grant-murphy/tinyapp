@@ -3,7 +3,7 @@ const app = express();
 const PORT = 8080; // default port 8080
 
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 
@@ -47,8 +47,7 @@ app.get("/u/:shortURL", (req, res) => {
 app.post("/urls", (req, res) => {
   let randomString = generateRandomString();
   urlDatabase[randomString] = req.body.longURL;
-  // console.log(urlDatabase);  // Log the POST request body to the console
-  res.redirect(`/urls/${randomString}`)
+  res.redirect(`/urls/${randomString}`);
 });
 
 
@@ -58,13 +57,13 @@ app.listen(PORT, () => {
 
 //RANDOM STRING GENERATOR
 let generateRandomString = function() {
-  var anysize = 6;//the size of string 
-  var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //from where to create
-  result="";
-  for( var i=0; i < anysize; i++ ) {
-  result += charset[Math.floor(Math.random() * charset.length)];
+  let anysize = 6;//the size of string
+  let charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //from where to create
+  result = "";
+  for (let i = 0; i < anysize; i++) {
+    result += charset[Math.floor(Math.random() * charset.length)];
   }
   return result;
-}
+};
 
 generateRandomString();
