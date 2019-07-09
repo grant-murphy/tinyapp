@@ -43,13 +43,17 @@ app.get("/u/:shortURL", (req, res) => {
   res.redirect(longURL);
 });
 
-
 app.post("/urls", (req, res) => {
   let randomString = generateRandomString();
   urlDatabase[randomString] = req.body.longURL;
   res.redirect(`/urls/${randomString}`);
 });
 
+app.post("/urls/:shortURL/delete", (req, res) => {
+  // console.log('hello', shortURL)
+  delete urlDatabase[req.params.shortURL];
+  res.redirect(`/urls/`);
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
@@ -57,10 +61,10 @@ app.listen(PORT, () => {
 
 //RANDOM STRING GENERATOR
 let generateRandomString = function() {
-  let anysize = 6;//the size of string
+  let anySize = 6; //the size of string
   let charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //from where to create
   result = "";
-  for (let i = 0; i < anysize; i++) {
+  for (let i = 0; i < anySize; i++) {
     result += charset[Math.floor(Math.random() * charset.length)];
   }
   return result;
