@@ -11,19 +11,19 @@
   </head>
 
   <body>
-    
+
     <% include partials/_header %>
 
     <main style="margin: 1em;">
-      <h3>Create an Account</h3>
-      <form class="inline-block" action="/register" method="POST">
+      <h3>Log In</h3>
+      <form class="inline-block" action="/login" method="POST">
         <div class="form-group mb-2">
           
           <label for="register" style="width: 300px; margin-top: 0.5em; margin-bottom: 0em">Email Address</label>
           <input class="form-control" type="email" name="email" placeholder="Enter Email" style="width: 300px; margin-top: 0.5em; margin-bottom: 0em">
           <label for="longURL" style="width: 300px; margin-top: 0.5em; margin-bottom: 0em">Password</label>
           <input class="form-control" type="password" name="password" placeholder="Password" style="width: 300px; margin-top: 0.5em; margin-bottom: 0em">
-          <button type="submit" class="btn btn-primary" style="margin-top: 0.75em; margin-bottom: 0em">Register</button>
+          <button type="submit" class="btn btn-primary" style="margin-top: 0.75em; margin-bottom: 0em">Log In</button>
 
         </div>
       </form>
