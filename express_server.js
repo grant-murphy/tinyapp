@@ -56,7 +56,6 @@ app.get("/register", (req, res) => {
 
 app.get("/login", (req, res) => {
   let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], user: users[req.cookies["user_id"]] };
-
   res.render("user_log", templateVars);
 });
 
@@ -122,11 +121,12 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
 
   let verify = (verifyUser(req.body.email, req.body.password))
-  console.log(verify)
-  console.log(req.body)
 
   if (verify) {
     res.cookie("user_id", verify);
+    console.log('verify', verify)
+    console.log('reqbody', req.body.email)
+    console.log('reqbody', req.body.password)
     res.redirect(`/urls`);
 
   } else {
@@ -161,7 +161,7 @@ generateRandomString();
 
 let verifyUser = function (email, password) {
   for (let verify in users) {
-    if (users[verify].email === email || users[verify].password === password) {
+    if (users[verify].email === email && users[verify].password === password) {
       return verify;
     }
   }
