@@ -11,11 +11,11 @@
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
 
-        <% if(username){ %>
+        <% if(user){ %>
           
           <form class="form-inline" action="/logout" method="POST" style="position: absolute; right: 0">
             <div class="form-group mb-2">
-              <label for="longURL" style="margin-right: 10px;">Logged In As: <%= `${username}` %></label>
+              <label for="longURL" style="margin-right: 10px;">Logged In As: <%= `${user.email}` %></label>
               <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Logout</button>
             </div>
           </form>  
@@ -24,8 +24,8 @@
           
           <form class="form-inline" action="/login" method="POST" style="position: absolute; right: 0">
             <div class="form-group mb-2">
-              <input class="form-control" type="text" name="username" placeholder="Username" style="display: table; margin-right: 10px;">
-              <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Sign In</button>
+                <a class="nav-item nav-link" href="/login">Login</a>
+                <a class="nav-item nav-link" href="/register">Register</a>
             </div>
           </form>  
           
