@@ -14,15 +14,15 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
-const users = { 
+const users = {
   "userRandomID": {
-    id: "userRandomID", 
-    email: "user@example.com", 
+    id: "userRandomID",
+    email: "user@example.com",
     password: "purple-monkey-dinosaur"
   },
- "user2RandomID": {
-    id: "user2RandomID", 
-    email: "user2@example.com", 
+  "user2RandomID": {
+    id: "user2RandomID",
+    email: "user2@example.com",
     password: "dishwasher-funk"
   }
 }
@@ -33,23 +33,37 @@ app.get("/u/:shortURL", (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase, username: req.cookies["username"] };
+  let templateVars = { urls: urlDatabase, user: users[req.cookies["user_id"]] };
   res.render("urls_index", templateVars);
 });
 
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new", { username: req.cookies["username"] });
+  res.render("urls_new", { user: users[req.cookies["user_id"]] });
 });
 
 app.get("/urls/:shortURL", (req, res) => {
-  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], username: req.cookies["username"] };
+  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], user: users[req.cookies["user_id"]] };
   res.render("urls_show", templateVars);
 });
 
 app.get("/register", (req, res) => {
-  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], username: req.cookies["username"] };
+  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], user: users[req.cookies["user_id"]] };
   res.render("user_reg", templateVars);
 });
+
+
+
+
+app.get("/login", (req, res) => {
+  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], user: users[req.cookies["user_id"]] };
+
+  res.render("user_log", templateVars);
+});
+
+
+
+
+
 
 app.get("/", (req, res) => {
   res.send("Hello!");
@@ -70,7 +84,6 @@ app.post("/urls", (req, res) => {
 });
 
 app.post("/urls/:shortURL/delete", (req, res) => {
-  // console.log('hello', shortURL)
   delete urlDatabase[req.params.shortURL];
   res.redirect(`/urls/`);
 });
@@ -85,29 +98,45 @@ app.post("/urls/:shortURL", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-  
-  if(!req.body.email || !req.body.password) {
+  if (!req.body.email || !req.body.password) {
     res.statusCode = 400;
-    return res.send('Invalid Username or Password')    
-    
+    return res.send('Invalid Username or Password')
+
   } else {
-  
-  let information = { email: req.body.email, password: req.body.password }
-  information.id = generateRandomString();
-  users[information.id] = information;
-  res.cookie("user_id", information.id);
-  res.redirect(`/urls`);
+
+    if (userExists(req.body.email)) {
+      res.redirect(`/login`);
+
+    } else {
+
+      let information = { email: req.body.email, password: req.body.password }
+      information.id = generateRandomString();
+      users[information.id] = information;
+      res.cookie("user_id", information.id);
+      res.redirect(`/urls`);
+
+    }
   }
-  
 });
 
 app.post("/login", (req, res) => {
-  res.cookie("username", req.body.username);
-  res.redirect(`/urls`);
+
+  let verify = (verifyUser(req.body.email, req.body.password))
+  console.log(verify)
+  console.log(req.body)
+
+  if (verify) {
+    res.cookie("user_id", verify);
+    res.redirect(`/urls`);
+
+  } else {
+    res.statusCode = 403;
+    res.send('Invalid Username or Password')
+  }
 });
 
 app.post("/logout", (req, res) => {
-  res.cookie('username', '', { expires: new Date(Date.now()) });
+  res.clearCookie('user_id');
   res.redirect(`/urls`);
 });
 
@@ -116,7 +145,7 @@ app.listen(PORT, () => {
 });
 
 //RANDOM STRING GENERATOR
-let generateRandomString = function() {
+let generateRandomString = function () {
   let anySize = 6; //the size of string
   let charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"; //from where to create
   result = "";
@@ -127,3 +156,29 @@ let generateRandomString = function() {
 };
 
 generateRandomString();
+
+//VERIFY USER
+
+let verifyUser = function (email, password) {
+  for (let verify in users) {
+    if (users[verify].email === email || users[verify].password === password) {
+      return verify;
+    }
+  }
+  return false;
+}
+
+//verifyUser();
+
+//VERIFY USER
+
+let userExists = function (email) {
+  for (let verify in users) {
+    if (users[verify].email === email) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// verifyUser();
