@@ -1,10 +1,10 @@
-const userExists = function (users, email) {
-  for (let verify in users) {
-    if (users[verify].email === email) {
-      return true;
+let emailPresent = function(email, users) {
+  for (let user in users) {
+    if (users[user].email === email) {
+      return user;
     }
   }
   return false;
-}
+};
 
-module.exports = { userExists };
+module.exports = { emailPresent };
