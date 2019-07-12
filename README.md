@@ -4,10 +4,9 @@ TinyApp is a full stack web application built with Node and Express that allows 
 
 ## Final Product
 
-!["Main page, where users login"](1)
-!["List of your URLs with the option to either delete or edit them"](2)
-!["Conversion of long URL into short URL with the option to edit"](3)
-
+!["Main page, where users login"](https://github.com/grant-murphy/tinyapp/blob/master/docs/main.png)
+!["List of your URLs with the option to either delete or edit them"](https://github.com/grant-murphy/tinyapp/blob/master/docs/urls-index.png)
+!["Conversion of long URL into short URL with the option to edit"](https://github.com/grant-murphy/tinyapp/blob/master/docs/urls-page.png)
 
 ## Dependencies
 
